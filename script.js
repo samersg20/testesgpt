@@ -1,5 +1,6 @@
 const display = document.getElementById('display');
 const buttons = document.querySelector('.buttons');
+const themeSelect = document.getElementById('theme');
 
 let firstOperand = null;
 let operator = null;
@@ -91,6 +92,14 @@ function equal() {
   handleOperator(operator);
   operator = null;
 }
+
+function applyTheme(themeName) {
+  document.documentElement.setAttribute('data-theme', themeName);
+}
+
+themeSelect.addEventListener('change', (event) => {
+  applyTheme(event.target.value);
+});
 
 buttons.addEventListener('click', (event) => {
   const { action, value } = event.target.dataset;
