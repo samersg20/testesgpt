@@ -27,13 +27,15 @@ export function PrintClient() {
 
   async function print() {
     setMessage("");
-    const res = await fetch("/api/prints", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ itemId, storageMethod, quantity }) });
-    const data = await res.json();
-    if (!res.ok) return setMessage(data.error || "Erro ao emitir");
     if (!printer) {
       await loadPrinters();
       return setMessage("Selecione uma impressora");
     }
+
+    const res = await fetch("/api/prints", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ itemId, storageMethod, quantity }) });
+    const data = await res.json();
+    if (!res.ok) return setMessage(data.error || "Erro ao emitir");
+
     try {
       await printRawZpl(data.zpl, quantity, printer);
       setMessage("Etiqueta enviada para impressão");
